@@ -12,7 +12,6 @@
 
 ## Objectives:
     Ricevere transazioni dai clienti.
-    
 
 ## Stack and technologies:
     ### Backend:
@@ -24,7 +23,7 @@
     ### Repositories:
         Block Repository (CRUD), MemPool (CRUD)
     ### Entities:
-    Blocks, Transactions, Wallets and Addresses
+        Blocks, Transactions, Wallets and Addresses
 
 
 
