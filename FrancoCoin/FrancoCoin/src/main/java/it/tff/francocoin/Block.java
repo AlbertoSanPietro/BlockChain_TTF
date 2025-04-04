@@ -12,6 +12,7 @@ package it.tff.francocoin;
 import org.bouncycastle.crypto.digests.Blake2sDigest;
 import org.bouncycastle.util.encoders.Hex;
 
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -21,6 +22,10 @@ public class Block {
   private HashMap<String, Object> PreviousBlock;
   private Transaction[] transactions;
   private String hash;
+
+  //This is ported 1:1 from C's #define syntax and customs
+  final BigInteger FNV_OFFSET = new BigInteger("144066263297769815596495629667062367629");
+  final BigInteger FNV_PRIME = new BigInteger("309485009821345068724781371"); 
 
   public Block(){}
 
@@ -52,9 +57,10 @@ public class Block {
   }
   //Cryptographic implementation with Blake2s Hashing.
   //It is unnecessary
-  //TODO subsitute with 128 bit FNV1-A hashing 
   //(Check Wikipedia for Fowler-Noll-Vo hashing)
-private static String generateHash(Block block) {
+
+/*
+  private static String generateHash(Block block) {
     String prevBlockData = (block.PreviousBlock != null)? block.PreviousBlock.toString(): "";
     String transactionData = (block.transactions != null)? Arrays.toString(block.transactions) : "";
     String data = block.height + prevBlockData + transactionData;
@@ -70,7 +76,41 @@ private static String generateHash(Block block) {
 
     return Hex.toHexString(interHash);
   }
+*/
 
+
+  /*
+    algorithm fnv-1a is
+    hash := FNV_offset_basis
+
+    for each byte_of_data to be hashed do
+        hash := hash XOR byte_of_data
+        hash := hash × FNV_prime
+
+    return hash 
+    */
+  private static String generateHash(Block block) {
+    String prevBlockData = (block.PreviousBlock != null)? block.PreviousBlock.toString(): "";
+    String transactionData = (block.transactions != null)? Arrays.toString(block.transactions) : "";
+    String data = block.height + prevBlockData + transactionData;
+    byte[] dataBytes = data.getBytes(StandardCharsets.UTF_8);
+
+    //Do the Hashing
+    //This is ported 1:1 from C's #define syntax and customs
+    final BigInteger FNV_OFFSET = new BigInteger("144066263297769815596495629667062367629");
+    final BigInteger FNV_PRIME = new BigInteger("309485009821345068724781371"); 
+  
+    BigInteger hash = FNV_OFFSET;
+
+    for (byte b : dataBytes) {
+        hash = hash.xor(BigInteger.valueOf(b & 0xff));
+        hash = hash.multiply(FNV_PRIME);
+    }
+
+    return hash.toString(16);
+
+
+  }
 
     public int getHeight() {
         return height;
