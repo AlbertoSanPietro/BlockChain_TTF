@@ -1,12 +1,12 @@
-#Architettura
+# Architettura
 
-##Nodo:
+## Nodo:
     Interfaces: HTTP per i client,  
                 WebSocket per comms con altri nodi.
 
 ##Struttura
 
-###Validation:
+### Validation:
     
 
 ## Objectives:
