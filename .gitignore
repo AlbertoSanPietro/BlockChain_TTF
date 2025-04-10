@@ -4,6 +4,13 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+
+### Wallet ###
+/wallet.dat
+wallet.dat
+
+
+
 ### STS ###
 .apt_generated
 .classpath
