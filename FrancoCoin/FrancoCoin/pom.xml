@@ -47,6 +47,13 @@
             <groupId>org.springframework.shell</groupId>
             <artifactId>spring-shell-starter</artifactId>
         </dependency>
+            
+        <!-- https://mvnrepository.com/artifact/org.web3j/crypto -->
+<dependency>
+    <groupId>org.web3j</groupId>
+    <artifactId>crypto</artifactId>
+    <version>5.0.0</version>
+</dependency>
 
         <dependency>
             <groupId>com.h2database</groupId>

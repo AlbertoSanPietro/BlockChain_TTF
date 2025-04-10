@@ -1,5 +1,5 @@
 # Architettura
-
+ 
 ## Node:
     Interfaces: HTTP per i client,
                 WebSocket per comms con altri nodi.
