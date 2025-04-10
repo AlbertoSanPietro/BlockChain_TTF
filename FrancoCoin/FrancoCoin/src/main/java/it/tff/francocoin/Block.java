@@ -9,8 +9,6 @@
 
 
 package it.tff.francocoin;
-import org.bouncycastle.crypto.digests.Blake2sDigest;
-import org.bouncycastle.util.encoders.Hex;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -39,7 +37,7 @@ public class Block {
 
 
   public static Block create(int height, HashMap<String, Object> PreviousBlock, 
-      Transaction[] transactions, String hash) {
+      Transaction[] transactions) {
     
     Block block = new Block();
     block.height = height;

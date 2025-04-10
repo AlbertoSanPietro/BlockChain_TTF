@@ -15,12 +15,12 @@ public class Address extends AbstractAddress {
         this.address = address;
     }
 
-     public Address fromString(String addressString) {
+     public static Address fromString(String addressString) {
         return new Address(addressString);
     }
 
 
-public Address fromPrivateKey(BigInteger privateKey) {
+public static Address fromPrivateKey(BigInteger privateKey) {
         byte[] privateKeyBytes = privateKey.toByteArray();
         
         Blake2sDigest digest = new Blake2sDigest(256);
