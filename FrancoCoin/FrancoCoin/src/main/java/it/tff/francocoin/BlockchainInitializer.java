@@ -81,13 +81,13 @@ public class BlockchainInitializer {
                             ")");
                 }
             } catch (Exception e) {
-                System.err.println("Errore nel controllo/creazione della tabella blocks: " + e.getMessage());
+                System.err.println("Error in the  check/creation of the blocks table: " + e.getMessage());
                 System.exit(1);
             }
             try {
                 Integer maxHeight = jdbcTemplate.queryForObject("SELECT MAX(height) FROM blocks", Integer.class);
                 if (maxHeight == null) {
-                    System.out.println("Nessun blocco trovato. Creo il blocco 0 (genesis)...");
+                    System.out.println("No block found. Creating block 0 (genesis)...");
                     // Creo il blocco genesis: altezza 0, nessun blocco precedente e nessuna transazione (array vuoto)
                     Block genesisBlock = Block.create(0, null, new Transaction[0]);
                     // Salvo il blocco nel database
@@ -97,16 +97,16 @@ public class BlockchainInitializer {
                             (genesisBlock.getTransactions() != null ? Arrays.toString(genesisBlock.getTransactions()) : ""),
                             genesisBlock.getHash());
                 } else {
-                    System.out.println("Blocchi trovati. Altezza massima: " + maxHeight + ". Avvio il server HTTP...");
+                    System.out.println("Blocks found. Maximum height: " + maxHeight + ". Startin the HTTP server...");
                 }
             } catch (Exception e) {
-                System.err.println("Errore nella selezione dell'altezza massima dei blocchi: " + e.getMessage());
+                System.err.println("Error in the selection of the blocks' heights: " + e.getMessage());
                 System.exit(1);
             }
 
 
         }
-
+            System.out.println("Blockchain inizialized with wallet: " + walletAddress.getAddress());
 
     }
 }
