@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.sql.DataSource;
+import java.sql.DriverManager;
 import java.io.*;
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -16,11 +16,11 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 
+// driver per SQLITE -> 
+
 
 @Component
 public class BlockchainInitializer {
-    @Autowired
-    private DataSource dataSource;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -30,13 +30,15 @@ public class BlockchainInitializer {
     @PostConstruct
     public void init() {
 
-        try (Connection conn = dataSource.getConnection()) {
+        String url = "jdbc:sqlite:blocks.db";
+            
+        try (Connection conn = DriverManager.getConnection(url)) {
             if (!conn.isValid(2)) {
-                System.err.println("H2 connection is invalid");
+                System.err.println("SQLite connection is invalid");
                 System.exit(1);
             }
         } catch (SQLException e) {
-            System.err.println("Erorr on the H2 connection" + e.getMessage());
+            System.err.println("Error on the SQLite connection" + e.getMessage());
             System.exit(1);
         }
 
