@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.sql.DriverManager;
+import java.sql.DriverManager;
 import java.io.*;
 import java.math.BigInteger;
 import java.security.SecureRandom;
