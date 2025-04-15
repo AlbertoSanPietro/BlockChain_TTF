@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.io.*;
 import java.math.BigInteger;
+import java.nio.file.Files;
 import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -40,6 +41,8 @@ public class BlockchainInitializer {
             System.exit(1);
         }
 
+        System.out.println("SQLite connection successful");
+
         File walletFile = new File("wallet.dat");
         if (!walletFile.exists()) {
             System.out.println("Wallet.dat not found");
@@ -50,26 +53,29 @@ public class BlockchainInitializer {
             walletAddress = Address.fromPrivateKey(privateKey);
 
             try (PrintWriter writer = new PrintWriter(walletFile)) {
-                writer.print(walletAddress.getAddress());
+                // We should save the private key in the wallet.dat file
+                writer.print(privateKey.toString());
             } catch (IOException e) {
                 System.err.println("Error while saving wallet.dat");
                 System.exit(1);
             }
         } else {
             //Load wallet.dat
-
-            try (BufferedReader reader = new BufferedReader(new FileReader(walletFile))) {
-
-                String addressStr = reader.readLine();
-                walletAddress = Address.fromString(addressStr);
+            System.out.println("Wallet.dat found");
+            try {
+                String privateKeyStr = Files.readString(walletFile.toPath());
+                BigInteger privateKey = new BigInteger(privateKeyStr.trim());
+                walletAddress = Address.fromPrivateKey(privateKey);
             } catch (IOException e) {
-                System.err.println("Error reading wallet.dat" + e.getMessage());
+                System.err.println("Error reading wallet.dat: " + e.getMessage());
                 System.exit(1);
             }
+
+            System.out.println("Address loaded from wallet.dat: " + walletAddress.getAddress());
             //Now we check if the blocks table exists and if necessary we create a new one
 
             try {
-                String tableCheckQuery = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'BLOCKS' ";
+                String tableCheckQuery = "SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='blocks'";
                 int count = jdbcTemplate.queryForObject(tableCheckQuery, Integer.class);
                 if (count == 0) {
                     System.out.println("Tabella 'blocks' non esistente. Creazione della tabella...");
