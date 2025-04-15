@@ -15,11 +15,11 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 
+// driver per SQLITE -> 
+
 
 @Component
 public class BlockchainInitializer {
-    @Autowired
-    private DataSource dataSource;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
