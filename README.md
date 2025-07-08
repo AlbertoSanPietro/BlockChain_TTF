@@ -1,2 +1,2 @@
 # BlockChain_TTF
-An attempt to create a local blockchain
+An attempt to create a local blockchain during class. 
